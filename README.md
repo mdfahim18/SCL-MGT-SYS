@@ -28,7 +28,7 @@ This **School Management System** is a powerful frontend application designed to
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/your-username/school-management-system-frontend.git
+   git clone https://github.com/mdfahim18/SCL-MGT-SYS
    cd school-management-system-frontend
    ```
 
