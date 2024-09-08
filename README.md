@@ -29,7 +29,7 @@ This **School Management System** is a powerful frontend application designed to
 
    ```bash
    git clone https://github.com/mdfahim18/SCL-MGT-SYS
-   cd school-management-system-frontend
+   cd SCL-MGT-SYS
    ```
 
 2. Install dependencies:
