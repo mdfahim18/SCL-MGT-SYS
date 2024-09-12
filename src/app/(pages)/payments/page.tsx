@@ -1,49 +1,126 @@
+'use client';
+
+import { RootState } from '@/app/store';
 import Container from '@/components/Container';
 import Title from '@/components/Title';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import React from 'react';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { dueAmount } from '@/lib/paymentHistory';
+import { makePayment } from '@/lib/paymentsSlice';
+import { format } from 'date-fns';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
-const paymentsData = [
-  {
-    fee: 150,
-    user: 'john_doe',
-    amount: 150,
-    date: '2024-07-01',
-    method: 'Credit Card',
-  },
-  {
-    fee: 200,
-    user: 'jane_smith',
-    amount: 200,
-    date: '2024-07-05',
-    method: 'Bank Transfer',
-  },
-  {
-    fee: 75.5,
-    user: 'alice_johnson',
-    amount: 75.5,
-    date: '2024-07-10',
-    method: 'alice_johnson',
-  },
-];
 export default function Payments() {
+  const fees = useSelector((state: RootState) => state.fees.fees);
+  const payments = useSelector((state: RootState) => state.payments.payments);
+  const students = useSelector((state: RootState) => state.students.students);
+
+  const dispatch = useDispatch();
+  const [user, setUser] = useState<string>('');
+  const [amount, setAmount] = useState<number | undefined>(undefined);
+  const [method, setMethod] = useState<string>('');
+  const [error, setError] = useState<string>('');
+
+  const handleCreatePayment = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (error || !amount || amount === 0 || !method || !user) {
+      alert('Please ensure the student exists and all fields are filled.');
+      return;
+    }
+
+    const studentExists = students.find((student) => student.user === user);
+    const feeForUser = fees.find((fee) => fee.user === user);
+
+    if (!studentExists) {
+      setError('Student not found');
+      setAmount(undefined);
+    } else {
+      setError('');
+
+      if (feeForUser && typeof feeForUser.amount !== 'undefined') {
+        // Calculate the due amount (ensure feeForUser.amount is not undefined)
+        const due = feeForUser.amount - amount;
+
+        // Dispatch the `makePayment` action with the full student info
+        dispatch(
+          makePayment({
+            id: studentExists.id,
+            user,
+            amount,
+            method,
+            date: format(new Date(), 'yyyy-MM-dd'),
+          })
+        );
+
+        dispatch(
+          dueAmount({
+            user: studentExists.user,
+            fee: feeForUser.amount,
+            amount: amount,
+            due: due,
+            date: format(new Date(), 'yyyy-MM-dd'),
+            method: method,
+          })
+        );
+
+        alert('Payment completed');
+      } else {
+        setError('No valid fee found for this user.');
+      }
+    }
+
+    setUser('');
+    setAmount(undefined);
+    setMethod('');
+    setError('');
+  };
+
   return (
     <Container className='page-container'>
       <Title title='payments' />
-      <form className='form'>
-        <Input placeholder='fee ID' />
-        <Input placeholder='fee ID' />
-        <Input placeholder='method' />
-        <Button>create payment</Button>
+      <form onSubmit={handleCreatePayment} className='form'>
+        <Input
+          value={user}
+          onChange={(e) => setUser(e.target.value)}
+          placeholder='User ID (e.g., john_doe)'
+          required
+          className=' lowercase placeholder:capitalize'
+        />
+        {error && <p className=' text-red-500'>{error}</p>}
+        <Input
+          value={amount}
+          onChange={(e) => setAmount(Number(e.target.value))}
+          placeholder='Amount'
+          required
+        />
+        <Select onValueChange={setMethod}>
+          <SelectTrigger className='w-[180px]'>
+            <SelectValue placeholder='Select Method' />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value='creditcard'>Credit Card</SelectItem>
+            <SelectItem value='banktransfer'>Bank Transfer</SelectItem>
+            <SelectItem value='paypal'>Pay Pal</SelectItem>
+          </SelectContent>
+        </Select>
+        <Button type='submit'>create payment</Button>
       </form>
       <Title title='all payments' />
       <section className='page-section-grid'>
-        {paymentsData.map((item, index) => (
-          <div className='page-section-div'>
+        {payments.map((item) => (
+          <div key={item.id} className='page-section-div'>
             <div>
-              <h2 className='text-black font-semibold'>Fee: </h2>
-              {item.fee}
+              <h2 className='text-black font-semibold'>ID: </h2>
+              {item.id}
             </div>
             <div>
               <h2 className='text-black font-semibold'>User: </h2>

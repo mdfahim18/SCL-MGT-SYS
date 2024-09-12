@@ -42,7 +42,7 @@ export default function Announcements() {
       return;
     }
 
-    const currentDate = new Date().toISOString(); // Generate the current date in ISO format
+    const currentDate = new Date().toISOString();
 
     const newAnnouncementData: AnnouncementsDataProps = {
       title: title || 'Untitled',

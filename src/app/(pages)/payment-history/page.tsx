@@ -1,55 +1,44 @@
+'use client';
+
+import { RootState } from '@/app/store';
 import Container from '@/components/Container';
 import Title from '@/components/Title';
 import React from 'react';
+import { useSelector } from 'react-redux';
 
-const PaymentHistoryData = [
-  {
-    user: 'john_doe',
-    fee: 150,
-    amount: 150,
-    date: '2024-07-01',
-    method: 'Credit Card',
-  },
-  {
-    user: 'jane_smith',
-    fee: 200,
-    amount: 200,
-    date: '2024-07-05',
-    method: 'Bank Transfer',
-  },
-  {
-    user: 'alice_johnson',
-    fee: 75.5,
-    amount: 75.5,
-    date: '2024-07-10',
-    method: 'alice_johnson',
-  },
-];
 export default function PaymentHistory() {
+  const PaymentHistory = useSelector(
+    (state: RootState) => state.paymentHistory.paymentHistory
+  );
+  const fees = useSelector((state: RootState) => state.fees.fees);
+
   return (
     <Container className='page-container'>
       <Title title='Payment History' />
       <section className='page-section-grid'>
-        {PaymentHistoryData.map((item, index) => (
+        {PaymentHistory.map((item, index) => (
           <div key={index} className='page-section-div'>
-            <div>
+            <div className='flex justify-between'>
               <h2 className='text-black font-semibold'>User: </h2>
               {item.user}
             </div>
-            <div>
+            <div className='flex justify-between'>
               <h2 className='text-black font-semibold'>Fee: </h2>
               {item.fee}
             </div>
-
-            <div>
+            <div className='flex justify-between'>
               <h2 className='text-black font-semibold'>Amount: </h2>
               {item.amount}
             </div>
-            <div>
+            <div className='flex justify-between'>
+              <h2 className='text-black font-semibold'>Due: </h2>
+              {item.due}
+            </div>
+            <div className='flex justify-between'>
               <h2 className='text-black font-semibold'>Date: </h2>
               {item.date}
             </div>
-            <div>
+            <div className='flex justify-between'>
               <h2 className='text-black font-semibold'>Method: </h2>
               {item.method}
             </div>

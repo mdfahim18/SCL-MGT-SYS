@@ -1,8 +1,12 @@
+'use client';
+
 import Container from '@/components/Container';
 import Title from '@/components/Title';
 import React from 'react';
 import { ColumnDef } from '@tanstack/react-table';
 import { DataTable } from '@/components/DataTable';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/app/store';
 
 type StudentsProps = {
   id: string;
@@ -20,92 +24,21 @@ export const columns: ColumnDef<StudentsProps>[] = [
     header: 'Name',
   },
   {
+    accessorKey: 'user',
+    header: 'User',
+  },
+  {
     accessorKey: 'age',
     header: 'Age',
   },
 ];
-const data: StudentsProps[] = [
-  {
-    id: 'S001',
-    name: 'Alice Johnson',
-    age: 20,
-  },
-  {
-    id: 'S002',
-    name: 'Bob Smith',
-    age: 22,
-  },
-  {
-    id: 'S003',
-    name: 'Charlie Brown',
-    age: 19,
-  },
-  {
-    id: 'S004',
-    name: 'David Williams',
-    age: 21,
-  },
-  {
-    id: 'S005',
-    name: 'Eva amber',
-    age: 22,
-  },
-  {
-    id: 'S001',
-    name: 'Alice Johnson',
-    age: 20,
-  },
-  {
-    id: 'S002',
-    name: 'Bob Smith',
-    age: 22,
-  },
-  {
-    id: 'S003',
-    name: 'Charlie Brown',
-    age: 19,
-  },
-  {
-    id: 'S004',
-    name: 'David Williams',
-    age: 21,
-  },
-  {
-    id: 'S005',
-    name: 'Eva amber',
-    age: 22,
-  },
-  {
-    id: 'S001',
-    name: 'Alice Johnson',
-    age: 20,
-  },
-  {
-    id: 'S002',
-    name: 'Bob Smith',
-    age: 22,
-  },
-  {
-    id: 'S003',
-    name: 'Charlie Brown',
-    age: 19,
-  },
-  {
-    id: 'S004',
-    name: 'David Williams',
-    age: 21,
-  },
-  {
-    id: 'S005',
-    name: 'Eva amber',
-    age: 22,
-  },
-];
+
 export default function Students() {
+  const students = useSelector((state: RootState) => state.students.students);
   return (
     <Container className='page-container'>
       <Title title='students' />
-      <DataTable columns={columns} data={data} />
+      <DataTable columns={columns} data={students} />
     </Container>
   );
 }

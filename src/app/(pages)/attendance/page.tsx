@@ -29,7 +29,14 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from '@/components/ui/chart';
+import { useSession } from 'next-auth/react';
 
+type ReportListProps = {
+  name: string;
+  class: string;
+  date: string | undefined;
+  status: string;
+};
 const chartData = [
   { status: 'Present', count: 0.8 },
   { status: 'Absent', count: 0.2 },
@@ -46,7 +53,7 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-const reportListData = [
+const reportListData: ReportListProps[] = [
   {
     name: 'Alice Johnson',
     class: 'Math 101',
@@ -73,13 +80,55 @@ const reportListData = [
   },
 ];
 export default function Attendance() {
+  const { data: session, status } = useSession();
+
+  const [newReportList, setNewReportList] =
+    useState<ReportListProps[]>(reportListData);
+  const [name, setName] = useState<string>('');
+  const [className, setClassName] = useState<string>('');
   const [date, setDate] = useState<Date>();
+  const [attendance, setAttendance] = useState<string>('');
+
+  const formattedDate = date ? format(date, 'yyyy-mm-dd') : '';
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (!date) {
+      alert('Please select a date');
+      return;
+    }
+
+    if (status === 'unauthenticated') {
+      alert('You must be logged in to create an announcement.');
+      return;
+    }
+
+    const newReportListData: ReportListProps = {
+      name,
+      class: className,
+      date: formattedDate,
+      status: attendance,
+    };
+
+    setNewReportList([...newReportList, newReportListData]);
+  };
   return (
     <Container className='page-container'>
       <Title title='attendance' />
-      <form className='form'>
-        <Input placeholder='Class ID' />
-        <Input placeholder='Student ID' />
+      <form onSubmit={handleSubmit} className='form'>
+        <Input
+          value={className}
+          onChange={(e) => setClassName(e.target.value)}
+          placeholder='Class ID'
+          required
+        />
+        <Input
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          placeholder='Student ID'
+          required
+        />
         <Popover>
           <PopoverTrigger asChild>
             <Button
@@ -102,7 +151,7 @@ export default function Attendance() {
             />
           </PopoverContent>
         </Popover>
-        <Select>
+        <Select onValueChange={setAttendance} required>
           <SelectTrigger className='w-[180px]'>
             <SelectValue placeholder='Present / Absent  ' />
           </SelectTrigger>
@@ -155,8 +204,8 @@ export default function Attendance() {
       </Card>
 
       <section className='page-section-grid'>
-        {reportListData.map((item, index) => (
-          <div className='page-section-div'>
+        {newReportList.map((item, index) => (
+          <div key={index} className='page-section-div capitalize'>
             <h4 className=' text-sm'>
               <span className=' text-black font-semibold'>Student: </span>
               {item.name}
