@@ -204,7 +204,7 @@ export default function Assignments() {
             {item.submission.map((i, ind) => (
               <div
                 key={ind}
-                className='page-section-div border border-gray-500 m-3'
+                className='page-section-div border border-gray-500 m-3 overflow-hidden'
               >
                 <h4 className=' text-black font-semibold'>Submissions</h4>
                 <p>

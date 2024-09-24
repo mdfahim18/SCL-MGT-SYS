@@ -1,13 +1,22 @@
+import React from 'react';
 import {
+  FaBook,
+  FaChalkboardTeacher,
   FaHouseUser,
+  FaMoneyCheck,
   FaSchool,
   FaUserGraduate,
   FaUserTie,
 } from 'react-icons/fa';
-import React from 'react';
+import {
+  MdAssignment,
+  MdFlightClass,
+  MdOutlinePayment,
+  MdWorkHistory,
+} from 'react-icons/md';
+import { GrAnnounce, GrDocumentPerformance } from 'react-icons/gr';
 import {
   BenefitsProps,
-  DashboardDataProps,
   FAQProps,
   NavDataProps,
   OurFeaturesProps,
@@ -16,7 +25,11 @@ import {
   TestimonialsProps,
 } from '@/types';
 import { MdDashboard } from 'react-icons/md';
-import { IoIosPeople } from 'react-icons/io';
+import { IoIosPeople, IoMdTime } from 'react-icons/io';
+import { SiBookstack, SiPowervirtualagents } from 'react-icons/si';
+import { BiSolidReport } from 'react-icons/bi';
+import { CiCreditCard1 } from 'react-icons/ci';
+import { FaMessage } from 'react-icons/fa6';
 export const navData: NavDataProps[] = [
   {
     id: 1,
@@ -193,17 +206,17 @@ export const sideNavbar: SideNavbarProps[] = [
   },
   {
     label: 'Academic Performance',
-    icon: <FaHouseUser />,
+    icon: <GrDocumentPerformance />,
     link: '/academic-performance',
   },
   {
     label: 'Announcements',
-    icon: <FaHouseUser />,
+    icon: <GrAnnounce />,
     link: '/announcements',
   },
   {
     label: 'Assignments',
-    icon: <FaHouseUser />,
+    icon: <MdAssignment />,
     link: '/assignments',
   },
   {
@@ -213,42 +226,42 @@ export const sideNavbar: SideNavbarProps[] = [
   },
   {
     label: 'Classes',
-    icon: <FaHouseUser />,
+    icon: <MdFlightClass />,
     link: '/classes',
   },
   {
     label: 'Courses',
-    icon: <FaHouseUser />,
+    icon: <SiBookstack />,
     link: '/courses',
   },
   {
     label: 'Fees',
-    icon: <FaHouseUser />,
+    icon: <FaMoneyCheck />,
     link: '/fees',
   },
   {
     label: 'Financial Reportses',
-    icon: <FaHouseUser />,
+    icon: <BiSolidReport />,
     link: '/financial-reports',
   },
   {
     label: 'Invoices',
-    icon: <FaHouseUser />,
+    icon: <CiCreditCard1 />,
     link: '/invoices',
   },
   {
     label: 'Messages',
-    icon: <FaHouseUser />,
+    icon: <FaMessage />,
     link: '/messages',
   },
   {
     label: 'Payments',
-    icon: <FaHouseUser />,
+    icon: <MdOutlinePayment />,
     link: '/payments',
   },
   {
     label: 'Payment History',
-    icon: <FaHouseUser />,
+    icon: <MdWorkHistory />,
     link: '/payment-history',
   },
   {
@@ -258,27 +271,27 @@ export const sideNavbar: SideNavbarProps[] = [
   },
   {
     label: 'Subjects',
-    icon: <FaHouseUser />,
+    icon: <FaBook />,
     link: '/subjects',
   },
   {
     label: 'Submissions',
-    icon: <FaHouseUser />,
+    icon: <FaUserGraduate />,
     link: '/submissions',
   },
   {
     label: 'Teachers',
-    icon: <FaHouseUser />,
+    icon: <FaChalkboardTeacher />,
     link: '/teachers',
   },
   {
     label: 'Timetable',
-    icon: <FaHouseUser />,
+    icon: <IoMdTime />,
     link: '/timetable',
   },
   {
     label: 'Virtual Classes',
-    icon: <FaHouseUser />,
+    icon: <SiPowervirtualagents />,
     link: '/virtual-classes',
   },
 ];
