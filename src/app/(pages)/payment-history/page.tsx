@@ -10,7 +10,6 @@ export default function PaymentHistory() {
   const PaymentHistory = useSelector(
     (state: RootState) => state.paymentHistory.paymentHistory
   );
-  const fees = useSelector((state: RootState) => state.fees.fees);
 
   return (
     <Container className='page-container'>

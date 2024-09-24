@@ -1,4 +1,5 @@
 import appReducer from '@/lib/appSlice';
+import assignmentsReducer from '@/lib/assignmentsSlice';
 import feesReducer from '@/lib/feesSlice';
 import paymentHistoryReducer from '@/lib/paymentHistory';
 import paymentsReducer from '@/lib/paymentsSlice';
@@ -12,6 +13,7 @@ export const store = configureStore({
     payments: paymentsReducer,
     students: studentsReducer,
     paymentHistory: paymentHistoryReducer,
+    assignments: assignmentsReducer,
   },
 });
 

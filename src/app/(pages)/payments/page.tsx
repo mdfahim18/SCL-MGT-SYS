@@ -47,10 +47,8 @@ export default function Payments() {
       setError('');
 
       if (feeForUser && typeof feeForUser.amount !== 'undefined') {
-        // Calculate the due amount (ensure feeForUser.amount is not undefined)
         const due = feeForUser.amount - amount;
 
-        // Dispatch the `makePayment` action with the full student info
         dispatch(
           makePayment({
             id: studentExists.id,
@@ -118,23 +116,23 @@ export default function Payments() {
       <section className='page-section-grid'>
         {payments.map((item) => (
           <div key={item.id} className='page-section-div'>
-            <div>
+            <div className=' flex items-center gap-2'>
               <h2 className='text-black font-semibold'>ID: </h2>
               {item.id}
             </div>
-            <div>
+            <div className=' flex items-center gap-2'>
               <h2 className='text-black font-semibold'>User: </h2>
               {item.user}
             </div>
-            <div>
+            <div className=' flex items-center gap-2'>
               <h2 className='text-black font-semibold'>Amount: </h2>
               {item.amount}
             </div>
-            <div>
+            <div className=' flex items-center gap-2'>
               <h2 className='text-black font-semibold'>Date: </h2>
               {item.date}
             </div>
-            <div>
+            <div className=' flex items-center gap-2'>
               <h2 className='text-black font-semibold'>Method: </h2>
               {item.method}
             </div>

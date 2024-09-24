@@ -18,6 +18,7 @@ const initialState: StudentsStateProps = {
     { id: 'S003', name: 'Charlie Brown', user: 'charlie_brown', age: 19 },
     { id: 'S004', name: 'David Williams', user: 'david_williams', age: 21 },
     { id: 'S005', name: 'Eva Amber', user: 'eva_amber', age: 22 },
+    { id: 'S006', name: 'MD Fahim', user: 'md_fahim', age: 19 },
   ],
 };
 

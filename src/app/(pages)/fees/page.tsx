@@ -20,29 +20,6 @@ import { createFee, updateAmount } from '@/lib/feesSlice';
 import { RootState } from '@/app/store';
 import { useSession } from 'next-auth/react';
 
-const allFeesData = [
-  {
-    id: '1',
-    user: 'john_doe',
-    amount: 100,
-    date: '2024-08-01',
-    status: 'pending',
-  },
-  {
-    id: '2',
-    user: 'jane_smit',
-    amount: 170.5,
-    date: '2024-08-15',
-    status: 'paid',
-  },
-  {
-    id: '3',
-    user: 'alice_johnson',
-    amount: 200.75,
-    date: '2024-09-01',
-    status: 'Overdue',
-  },
-];
 export default function Fees() {
   const { data: session, status } = useSession();
 

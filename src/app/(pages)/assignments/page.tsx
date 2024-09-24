@@ -23,12 +23,15 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { useSession } from 'next-auth/react';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '@/app/store';
+import { makeAssignment, makeAssignmentToGrade } from '@/lib/assignmentsSlice';
 
 type Submission = {
   submitby: string;
   submitat: string;
   content: string;
-  grade: number | undefined;
+  grade: number;
   feedback: string;
 };
 
@@ -38,87 +41,25 @@ type TaskProps = {
   task: string;
   date: string | undefined;
   course: string;
-  submission: Submission[]; // Array of Submission type
+  submission: Submission[];
 };
 
-const assignmentsData: TaskProps[] = [
-  {
-    id: 1,
-    title: 'Math homework',
-    task: 'Complete the problems on page 42.',
-    date: '2024-08-01',
-    course: 'Mathematics',
-    submission: [
-      {
-        submitby: 'student 1',
-        submitat: '2024-07-21T12:30:00Z',
-        content: 'My completed homework',
-        grade: 88,
-        feedback: 'well done',
-      },
-    ],
-  },
-  {
-    id: 2,
-    title: 'History Essay',
-    task: 'Write an essay on World War II.',
-    date: '2024-08-05',
-    course: 'History',
-    submission: [
-      {
-        submitby: 'student 2',
-        submitat: ' 2024-07-20T10:00:00Z',
-        content: 'My essay',
-        grade: 90,
-        feedback: 'greate job!',
-      },
-    ],
-  },
-  {
-    id: 3,
-    title: 'Math homework',
-    task: 'Complete the problems on page 42.',
-    date: '2024-08-01',
-    course: 'Mathematics',
-    submission: [
-      {
-        submitby: 'student 1',
-        submitat: '2024-07-21T12:30:00Z',
-        content: 'My completed homework',
-        grade: 88,
-        feedback: 'well done',
-      },
-    ],
-  },
-  {
-    id: 4,
-    title: 'History Essay',
-    task: 'Write an essay on World War II.',
-    date: '2024-08-05',
-    course: 'History',
-    submission: [
-      {
-        submitby: 'student 2',
-        submitat: ' 2024-07-20T10:00:00Z',
-        content: 'My essay',
-        grade: 90,
-        feedback: 'greate job!',
-      },
-    ],
-  },
-];
 export default function Assignments() {
   const { data: session, status } = useSession();
+  const assignments = useSelector(
+    (state: RootState) => state.assignments.assignments
+  );
+  const dispatch = useDispatch();
 
-  const [newAssignment, setNewAssignment] =
-    useState<TaskProps[]>(assignmentsData);
+  console.log(assignments);
+
   const [title, setTitle] = useState<string>('');
   const [task, setTask] = useState<string>('');
   const [date, setDate] = useState<Date>();
   const [course, setCourse] = useState<string>('');
 
   const [gradeID, setGradeID] = useState<number | undefined>(undefined);
-  const [grade, setGrade] = useState<number>();
+  const [grade, setGrade] = useState<number | undefined>(undefined);
   const [feedback, setFeedback] = useState<string>('');
 
   const formattedDate = date ? format(date, 'yyyy-mm-dd') : '';
@@ -131,7 +72,7 @@ export default function Assignments() {
     }
 
     const newAssignmentData: TaskProps = {
-      id: newAssignment.length + 1,
+      id: assignments.length + 1,
       title,
       task,
       date: formattedDate,
@@ -139,7 +80,7 @@ export default function Assignments() {
       submission: [],
     };
 
-    setNewAssignment([...newAssignment, newAssignmentData]);
+    dispatch(makeAssignment(newAssignmentData));
     alert('Assignment added successfully');
     setTitle('');
     setTask('');
@@ -150,43 +91,24 @@ export default function Assignments() {
   const handleGradeSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const assignmentToGrade = newAssignment.find((item) => item.id === gradeID);
-    if (!assignmentToGrade) {
-      alert('Assignment not found');
+    if (!gradeID || !grade || !feedback) {
+      alert('Please provide all grading details');
       return;
     }
 
-    const updatedSubmission = assignmentToGrade.submission.length
-      ? assignmentToGrade.submission.map((submission) => ({
-          ...submission,
-          grade,
-          feedback,
-        }))
-      : [
-          {
-            submitby: 'student 2',
-            submitat: '30 3pm',
-            content: 'new submittion',
-            grade,
-            feedback,
-          },
-        ];
-
-    const updatedAssignment = {
-      ...assignmentToGrade,
-      submission: updatedSubmission,
-    };
-
-    setNewAssignment(
-      newAssignment.map((item) =>
-        item.id === gradeID ? updatedAssignment : item
-      )
+    dispatch(
+      makeAssignmentToGrade({
+        id: gradeID,
+        grade: grade,
+        feedback: feedback,
+        submitby: 'student 1',
+      })
     );
 
-    setGradeID(undefined);
-    setGrade(0);
-    setFeedback('');
     alert('Submission graded successfully');
+    setGradeID(undefined);
+    setGrade(undefined);
+    setFeedback('');
   };
 
   return (
@@ -266,7 +188,7 @@ export default function Assignments() {
       </div>
       <Title title='all assignments' />
       <section className='page-section-grid'>
-        {newAssignment.map((item, index) => (
+        {assignments.map((item, index) => (
           <div key={index} className='page-section-div'>
             <h3 className=' text-black font-semibold capitalize'>
               {item.title}
