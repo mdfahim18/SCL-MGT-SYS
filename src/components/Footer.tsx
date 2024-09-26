@@ -2,8 +2,11 @@ import { navData, socialLinks } from '@/data/data';
 import Link from 'next/link';
 import React from 'react';
 import { Button } from './ui/button';
+import { format } from 'date-fns';
 
 export default function Footer() {
+  const date = format(new Date(), 'yyyy');
+
   return (
     <footer className=' bg-gray-900 text-white py-4 sm:py-10 px-5 sm:px-12'>
       <div className=' grid grid-cols-1 sm:grid-cols-3 gap-10'>
@@ -35,7 +38,9 @@ export default function Footer() {
 
         <div className='flex flex-col gap-1'>
           <h1 className=' text-xl'>Newslatter</h1>
-          <p>Subscribe to our newsletter for updates and special offers.</p>
+          <p className=' text-sm'>
+            Subscribe to our newsletter for updates and special offers.
+          </p>
           <form className=' flex items-center w-full rounded-md focus-within:ring-2 focus-within:ring-amber-700'>
             <input
               type='text'
@@ -50,8 +55,8 @@ export default function Footer() {
       </div>
 
       <div className=' w-full h-[1px] my-5 bg-gray-500'></div>
-      <div className=' flex justify-between items-center'>
-        <p>© 2024 Your School Management System. All rights reserved.</p>
+      <div className=' flex justify-between items-center text-sm sm:text-base'>
+        <p>© {date} Your School Management System. All rights reserved.</p>
         <Link href={'/'}>
           <p>Privacy Policy | Terms of Service</p>
         </Link>

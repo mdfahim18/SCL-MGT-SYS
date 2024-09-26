@@ -9,13 +9,23 @@ import { RiMenuUnfold3Fill, RiMenuUnfold4Fill } from 'react-icons/ri';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store';
 import { collapsed, notCollapsed } from '@/lib/appSlice';
+import { useWindowWidth } from '@react-hook/window-size';
 
 export default function layout({ children }: { children: React.ReactNode }) {
   const [selected, setSelected] = useState(0);
   const isCollapsed = useSelector((state: RootState) => state.app.isCollapsed);
+  const dispatch = useDispatch();
+
+  const onlyWidth = useWindowWidth();
+  const mobileWidth = onlyWidth < 768;
+
+  if (mobileWidth) {
+    dispatch(collapsed());
+  } else {
+    dispatch(notCollapsed());
+  }
 
   const { data: session } = useSession();
-  const dispatch = useDispatch();
 
   return (
     <div className=' flex fixed w-full'>

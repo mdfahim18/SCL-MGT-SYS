@@ -13,7 +13,6 @@ import {
   pricingPlan,
   testimonials,
 } from '@/data/data';
-import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import { useState } from 'react';
 import { IoIosArrowDown, IoIosArrowUp, IoMdCheckmark } from 'react-icons/io';
@@ -44,6 +43,7 @@ export default function Home() {
           title='our features'
           para='Discover the powerful features our school management system offers to streamline your educational institution.'
         />
+
         <section className=' grid grid-cols-1 sm:grid-cols-3 gap-12 items-center'>
           {ourFeatures?.map((item) => (
             <Container
