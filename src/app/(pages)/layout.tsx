@@ -17,13 +17,7 @@ export default function layout({ children }: { children: React.ReactNode }) {
   const dispatch = useDispatch();
 
   const onlyWidth = useWindowWidth();
-  const mobileWidth = onlyWidth < 768;
-
-  if (mobileWidth) {
-    dispatch(collapsed());
-  } else {
-    dispatch(notCollapsed());
-  }
+  const mobileWidth = onlyWidth < 500;
 
   const { data: session } = useSession();
 
@@ -79,9 +73,11 @@ export default function layout({ children }: { children: React.ReactNode }) {
                 height={500}
                 className=' object-cover h-7 w-7 rounded-full'
               />
-              <h2 className=' text-sm text-gray-600 font-semibold'>
-                Mahmudul Amin Fahim
-              </h2>
+              {mobileWidth ? null : (
+                <h2 className=' text-sm text-gray-600 font-semibold'>
+                  Mahmudul Amin Fahim
+                </h2>
+              )}
             </div>
           ) : (
             <div className=' flex justify-center items-center gap-2'>
@@ -92,9 +88,11 @@ export default function layout({ children }: { children: React.ReactNode }) {
                 height={500}
                 className=' object-cover h-7 w-7 rounded-full'
               />
-              <h2 className=' text-sm text-gray-600 font-semibold'>
-                {session?.user?.name}
-              </h2>
+              {mobileWidth ? null : (
+                <h2 className=' text-sm text-gray-600 font-semibold'>
+                  {session?.user?.name}
+                </h2>
+              )}
             </div>
           )}
         </div>

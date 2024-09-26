@@ -12,12 +12,14 @@ export default function Title({
     <div className=' flex flex-col gap-3 justify-center items-center'>
       <h1
         className={cn(
-          `text-3xl capitalize text-black font-bold ${headerClass}`
+          ` text-xl sm:text-3xl capitalize text-black font-bold ${headerClass}`
         )}
       >
         {title}
       </h1>
-      <p className={cn(`text-gray-700 ${descClass}`)}>{para}</p>
+      <p className={cn(` text-sm sm:text-base text-gray-700 ${descClass}`)}>
+        {para}
+      </p>
     </div>
   );
 }
