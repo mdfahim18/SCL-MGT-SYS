@@ -8,9 +8,10 @@ import { DataTable } from '@/components/DataTable';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/app/store';
 
-type StudentsProps = {
+export type StudentsProps = {
   id: string;
   name: string;
+  user: string;
   age: number;
 };
 
@@ -35,9 +36,10 @@ export const columns: ColumnDef<StudentsProps>[] = [
 
 export default function Students() {
   const students = useSelector((state: RootState) => state.students.students);
+
   return (
     <Container className='page-container'>
-      <Title title='students' />
+      <Title title='Students' />
       <DataTable columns={columns} data={students} />
     </Container>
   );

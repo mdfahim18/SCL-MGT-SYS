@@ -29,7 +29,6 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from '@/components/ui/chart';
-import { useSession } from 'next-auth/react';
 
 type ReportListProps = {
   name: string;
@@ -80,8 +79,6 @@ const reportListData: ReportListProps[] = [
   },
 ];
 export default function Attendance() {
-  const { data: session, status } = useSession();
-
   const [newReportList, setNewReportList] =
     useState<ReportListProps[]>(reportListData);
   const [name, setName] = useState<string>('');
@@ -99,19 +96,18 @@ export default function Attendance() {
       return;
     }
 
-    if (status === 'unauthenticated') {
-      alert('You must be logged in to create an announcement.');
-      return;
-    }
-
     const newReportListData: ReportListProps = {
-      name,
-      class: className,
+      name: name || 'Unknown',
+      class: className || 'Unknown',
       date: formattedDate,
-      status: attendance,
+      status: attendance || 'Unknown',
     };
 
     setNewReportList([...newReportList, newReportListData]);
+    setName('');
+    setClassName('');
+    setDate(undefined);
+    setAttendance('');
   };
   return (
     <Container className='page-container'>

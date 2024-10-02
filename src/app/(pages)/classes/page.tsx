@@ -4,7 +4,6 @@ import Container from '@/components/Container';
 import Title from '@/components/Title';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { useSession } from 'next-auth/react';
 import React, { useState } from 'react';
 
 type ClassesProps = {
@@ -46,24 +45,21 @@ const allClassesData: ClassesProps[] = [
   },
 ];
 export default function Classes() {
-  const { data: session, status } = useSession();
   const [newClasses, setNewClasses] = useState<ClassesProps[]>(allClassesData);
   const [sub, setSub] = useState<string>('');
   const [teacher, setTeacher] = useState<string>('');
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (status === 'unauthenticated') {
-      alert('You must be logged in to create an announcement.');
-      return;
-    }
 
     const newClassesData: ClassesProps = {
-      sub,
-      teacher,
+      sub: sub || 'Untitled class',
+      teacher: teacher || 'Unknown Teacher',
     };
     setNewClasses([...newClasses, newClassesData]);
     alert('Class added successfully');
+    setSub('');
+    setTeacher('');
   };
   return (
     <Container className='page-container'>

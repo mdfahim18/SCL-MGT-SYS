@@ -22,7 +22,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { useSession } from 'next-auth/react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/app/store';
 import { makeAssignment, makeAssignmentToGrade } from '@/lib/assignmentsSlice';
@@ -45,13 +44,10 @@ type TaskProps = {
 };
 
 export default function Assignments() {
-  const { data: session, status } = useSession();
   const assignments = useSelector(
     (state: RootState) => state.assignments.assignments
   );
   const dispatch = useDispatch();
-
-  console.log(assignments);
 
   const [title, setTitle] = useState<string>('');
   const [task, setTask] = useState<string>('');
@@ -66,15 +62,11 @@ export default function Assignments() {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (status === 'unauthenticated') {
-      alert('You must be logged in to create an announcement.');
-      return;
-    }
 
     const newAssignmentData: TaskProps = {
       id: assignments.length + 1,
-      title,
-      task,
+      title: title || 'Untitled',
+      task: task || 'No description',
       date: formattedDate,
       course,
       submission: [],
@@ -224,7 +216,7 @@ export default function Assignments() {
                   {i.grade}
                 </p>
                 <p>
-                  <span className='text-black text-sm'>Grade: </span>
+                  <span className='text-black text-sm'>Feedback: </span>
                   {i.feedback}
                 </p>
               </div>

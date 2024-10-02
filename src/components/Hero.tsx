@@ -13,7 +13,7 @@ export default function Hero() {
   useEffect(() => {
     if (status === 'authenticated') {
     }
-  }, []);
+  }, [status]);
   return (
     <section className=' w-full flex justify-center items-center relative'>
       <div className=' w-full'>

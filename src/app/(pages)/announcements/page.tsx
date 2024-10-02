@@ -5,7 +5,6 @@ import Title from '@/components/Title';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { useSession } from 'next-auth/react';
 import React, { useState } from 'react';
 
 type AnnouncementsDataProps = {
@@ -28,8 +27,6 @@ const announcementData: AnnouncementsDataProps[] = [
 ];
 
 export default function Announcements() {
-  const { data: session, status } = useSession();
-
   const [newAnnouncement, setNewAnnouncement] =
     useState<AnnouncementsDataProps[]>(announcementData);
   const [title, setTitle] = useState<string>('');
@@ -37,10 +34,6 @@ export default function Announcements() {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (status === 'unauthenticated') {
-      alert('You must be logged in to create an announcement.');
-      return;
-    }
 
     const currentDate = new Date().toISOString();
 

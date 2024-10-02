@@ -57,9 +57,9 @@ export default function Messages() {
       setError('Both sender and receiver must be valid students.');
     } else {
       const newMessage: MessageProps = {
-        from: fromUser,
-        to: toUser,
-        message: messageContent,
+        from: fromUser || 'Unknown',
+        to: toUser || 'Unknown',
+        message: messageContent || 'No message',
         date: format(new Date(), 'yyyy-mm-dd'),
       };
 
@@ -96,13 +96,12 @@ export default function Messages() {
           required
         />
         {error && <p className='text-red-500'>{error}</p>}{' '}
-        {/* Display error if any */}
         <Button type='submit'>send message</Button>
       </form>
       <Title title='recent message' />
       <section className='page-section-grid'>
         {messageData.map((item, index) => (
-          <div className='page-section-div'>
+          <div key={index} className='page-section-div'>
             <h2>
               <span className=' text-black'>{item.from}</span> to{' '}
               <span>{item.to}</span>:

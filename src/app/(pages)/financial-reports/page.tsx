@@ -7,7 +7,6 @@ import { Pie, PieChart } from 'recharts';
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -19,7 +18,6 @@ import {
   ChartTooltipContent,
 } from '@/components/ui/chart';
 
-export const description = 'A simple pie chart';
 const chartData = [
   { fees: 'Total Fees', money: 50000.0, fill: 'hsl(var(--chart-5))' },
   { fees: 'Total Payments', money: 35000.0, fill: 'hsl(var(--chart-2))' },

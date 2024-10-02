@@ -4,7 +4,7 @@ import Container from '@/components/Container';
 import Title from '@/components/Title';
 import { Input } from '@/components/ui/input';
 import React, { useState } from 'react';
-import { format, set } from 'date-fns';
+import { format } from 'date-fns';
 import { Calendar as CalendarIcon } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
@@ -18,11 +18,8 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { createFee, updateAmount } from '@/lib/feesSlice';
 import { RootState } from '@/app/store';
-import { useSession } from 'next-auth/react';
 
 export default function Fees() {
-  const { data: session, status } = useSession();
-
   const fees = useSelector((state: RootState) => state.fees.fees);
   const payments = useSelector((state: RootState) => state.payments.payments);
 
@@ -41,10 +38,7 @@ export default function Fees() {
 
   const handleCreateFee = (e: React.FocusEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (status === 'unauthenticated') {
-      alert('You must be logged in to create an announcement.');
-      return;
-    }
+
     dispatch(
       createFee({
         id: Date.now().toString(),
@@ -79,8 +73,6 @@ export default function Fees() {
   };
 
   const handleSuggestionClick = (username: string) => {
-    console.log(username);
-
     setUpdateUser(username);
     setShowSuggestions(false);
   };

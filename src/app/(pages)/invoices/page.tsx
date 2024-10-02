@@ -60,6 +60,7 @@ export default function Invoices() {
     } else {
       alert('Student not found');
     }
+    setUserID('');
   };
 
   const handleBlur = () => {

@@ -6,6 +6,7 @@ import Title from '@/components/Title';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
+import { format } from 'date-fns';
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 
@@ -40,7 +41,6 @@ export default function Submissions() {
     useState<SubmissionsProps[]>(submissionsData);
   const [submittedby, setSubmittedby] = useState<string>('');
   const [subject, setSubject] = useState<string>('');
-  const [submittedat, setSubmittedat] = useState<string>('');
   const [content, setContent] = useState<string>('');
 
   const students = useSelector((state: RootState) => state.students.students);
@@ -52,8 +52,17 @@ export default function Submissions() {
     );
     if (!studentExists) {
       alert('Student not found');
-    } else {
     }
+    const newSubmission: SubmissionsProps = {
+      subject: subject || '',
+      submittedby: submittedby || 'Unknown',
+      submittedat: format(new Date(), 'yyyy-mm-dd'),
+      content: content || '',
+    };
+    setSumissions([...submissions, newSubmission]);
+    setSubmittedby('');
+    setSubject('');
+    setContent('');
   };
   return (
     <Container className='page-container'>
@@ -82,7 +91,7 @@ export default function Submissions() {
       </form>
       <Title title='recent submission' />
       <section className='page-section-grid'>
-        {submissionsData.map((item, index) => (
+        {submissions.map((item, index) => (
           <div key={index} className='page-section-div'>
             <Title title={item.subject} headerClass=' text-lg' />
             <h4 className=' text-sm'>

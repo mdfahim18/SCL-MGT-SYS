@@ -6,7 +6,6 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { format } from 'date-fns';
-import { useSession } from 'next-auth/react';
 import React, { useState } from 'react';
 
 type CourseType = {
@@ -47,19 +46,12 @@ const allCoursesData: CourseType[] = [
   },
 ];
 export default function Courses() {
-  const { data: session, status } = useSession();
-
   const [newCourses, setNewCourses] = useState<CourseType[]>(allCoursesData);
   const [title, setTitle] = useState<string>('');
   const [desc, setDesc] = useState<string>('');
 
   const handleSubmit = (e: React.FocusEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    if (status === 'unauthenticated') {
-      alert('You must be logged in to create an announcement.');
-      return;
-    }
 
     const newCoursesData: CourseType = {
       title,
@@ -74,6 +66,8 @@ export default function Courses() {
 
     setNewCourses([...newCourses, newCoursesData]);
     alert('Course added successfully');
+    setTitle('');
+    setDesc('');
   };
   return (
     <Container className='page-container'>

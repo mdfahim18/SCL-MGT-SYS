@@ -13,7 +13,6 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from '@/components/ui/chart';
-import { useSession } from 'next-auth/react';
 
 type ChartDataProps = {
   number: string;
@@ -34,31 +33,24 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 export default function AcademicPerformance() {
-  const { data: session, status } = useSession();
   const [newChartData, setNewChartData] = useState<ChartDataProps[] | any>(
     chartData
   );
-  const [averageScore, setAverageScore] = useState<number>();
+  const [averageScore, setAverageScore] = useState<number | ''>('');
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (status === 'unauthenticated') {
-      alert('You must be logged in to generate a report.');
-      return;
-    }
 
     const newAssignmentNumber = `Assignment ${newChartData.length + 1}`;
-    const userSubmissionCount = session ? 1 : 0;
-    console.log(userSubmissionCount);
 
     const newAssignmentData = {
       number: newAssignmentNumber,
-      averagescore: averageScore,
-      submisstion: chartData.length + userSubmissionCount,
+      averagescore: averageScore || 0,
+      submisstion: chartData.length + 1,
     };
     setNewChartData([...newChartData, newAssignmentData]);
 
-    setAverageScore(0);
+    setAverageScore('');
   };
   return (
     <Container className='page-container'>

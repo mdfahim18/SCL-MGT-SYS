@@ -1,5 +1,3 @@
-'use client';
-
 import Container from '@/components/Container';
 import Title from '@/components/Title';
 import { sideNavbar } from '@/data/data';
